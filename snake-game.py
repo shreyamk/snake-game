@@ -82,3 +82,38 @@ def check_eat(snake, apple):
         apple.randomize()
 
 
+if __name__ == '__main__':
+    snake = Snake()
+    apple = Apple()
+    while True:
+
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == KEYDOWN:
+                if event.key == K_UP:
+                    snake.point(UP)
+                elif event.key == K_DOWN:
+                    snake.point(DOWN)
+                elif event.key == K_LEFT:
+                    snake.point(LEFT)
+                elif event.key == K_RIGHT:
+                    snake.point(RIGHT)
+
+
+        surface.fill((255,255,255))
+        snake.move()
+        check_eat(snake, apple)
+        snake.draw(surface)
+        apple.draw(surface)
+        font = pygame.font.Font(None, 36)
+        text = font.render(str(snake.length), 1, (10, 10, 10))
+        textpos = text.get_rect()
+        textpos.centerx = 20
+        surface.blit(text, textpos)
+        screen.blit(surface, (0,0))
+
+        pygame.display.flip()
+        pygame.display.update()
+        fpsClock.tick(5 + snake.length/3)
